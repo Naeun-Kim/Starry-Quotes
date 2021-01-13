@@ -34,7 +34,7 @@ $colors: (
   height: 100vh;
 }
 
-.sky-color {
+body {
   &.sunset {
     $colors: map-deep-get($colors, "sunset");
     background-image: linear-gradient(

@@ -5,6 +5,21 @@ import Quote from "../components/Quote";
 const Index: React.FC = () => {
   const [quote, setQuote] = useState(null);
 
+  const background = ["sunset", "night", "midnight"];
+  const random = Math.floor(Math.random() * background.length);
+
+  function useBodyClass(className) {
+    useEffect(() => {
+      document.body.classList.add(className);
+
+      return function cleanup() {
+        document.body.classList.remove(className);
+      };
+    }, []);
+  }
+
+  useBodyClass(`${background[random]}`);
+
   async function getQuote() {
     try {
       const response = await fetch(

@@ -14,8 +14,6 @@ class MyDocument extends Document {
   }
 
   render() {
-    const background = ["sunset", "night", "midnight"];
-    const random = Math.floor(Math.random() * background.length);
     return (
       <Html>
         <Head>
@@ -25,7 +23,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
         </Head>
-        <body className={`sky-color ${background[random]}`}>
+        <body>
           <Main />
           <NextScript />
         </body>
