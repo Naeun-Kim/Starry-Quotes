@@ -1,5 +1,6 @@
-@import "./mixin";
-@import "./font";
+@use './mixin' as *;
+@use './font' as *;
+@use 'sass:map';
 
 body {
   margin: 0;
@@ -36,7 +37,7 @@ $colors: (
 
 body {
   &.sunset {
-    $colors: map-deep-get($colors, "sunset");
+    $colors: map-deep-get($colors, 'sunset');
     background-image: linear-gradient(
       150deg,
       $colors
@@ -44,11 +45,11 @@ body {
     background-size: 200% 150%;
   }
   &.night {
-    $colors: map-deep-get($colors, "night");
+    $colors: map-deep-get($colors, 'night');
     background-image: linear-gradient(150deg, $colors);
   }
   &.midnight {
-    $colors: map-deep-get($colors, "midnight");
+    $colors: map-deep-get($colors, 'midnight');
     background-image: linear-gradient(150deg, $colors);
   }
 
@@ -139,7 +140,7 @@ body {
     padding: 5px 12px;
     background-color: rgba(255, 255, 255, 0.15);
     border-radius: 15px;
-    font-family: "Roboto", sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 0.875rem;
     letter-spacing: 1px;
   }

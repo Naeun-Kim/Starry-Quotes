@@ -1,121 +1,166 @@
-import React from "react";
-import Particles from "react-tsparticles";
-import * as params from "../assets/particles";
+import { useState, useEffect, useMemo } from 'react';
+import Particles, { initParticlesEngine } from '@tsparticles/react';
+import {
+  type Container,
+  type ISourceOptions,
+  MoveDirection,
+  OutMode,
+} from '@tsparticles/engine';
+import { loadSlim } from '@tsparticles/slim';
 
-const Layout: React.FC = ({ children }) => (
-  <div className="wrapper">
-    {/* <Particles options={params} /> */}
-    <Particles
-      options={{
-        particles: {
-          number: {
-            value: 200,
-            density: {
-              enable: true,
-              value_area: 789.1476416322727,
+type LayoutProps = { children: React.ReactNode };
+
+const Layout = ({ children }: LayoutProps) => {
+  const [init, setInit] = useState(false);
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
+
+  const particlesLoaded = async (container?: Container): Promise<void> => {
+    console.log(container);
+  };
+
+  const options: ISourceOptions = useMemo(
+    () => ({
+      particles: {
+        number: {
+          value: 250,
+          density: {
+            enable: true,
+          },
+        },
+        color: {
+          value: ['#ffffff', '#fffbbf'],
+        },
+        shape: {
+          type: 'image',
+          options: {
+            image: {
+              src: 'https://2019naeun.s3.ap-northeast-2.amazonaws.com/assets/images/star.png',
+              width: 100,
+              height: 100,
             },
           },
-          color: {
-            value: ["#ffffff", "#fffbbf"],
-          },
-          shape: {
-            type: "image",
-            stroke: {
-              width: 0,
-            },
-            polygon: {
-              nb_sides: 5,
-            },
-            image: [
-              {
-                src:
-                  "https://2019naeun.s3.ap-northeast-2.amazonaws.com/assets/images/star.png",
-                width: 100,
-                height: 100,
-              },
-            ],
-          },
-          opacity: {
-            value: 0.9,
-            random: true,
-            anim: {
-              enable: true,
-              speed: 0.2,
-              opacity_min: 0,
-              sync: false,
-            },
-          },
-          size: {
-            value: 4,
-            random: true,
-            anim: {
-              enable: true,
-              speed: 3,
-              size_min: 0,
-              sync: false,
-            },
-          },
-          line_linked: {
-            enable: false,
-          },
-          move: {
+        },
+        opacity: {
+          value: { min: 0.3, max: 1.0 },
+          random: { enable: true },
+          animation: {
             enable: true,
             speed: 0.2,
-            direction: "none",
-            random: true,
-            straight: false,
-            out_mode: "out",
-            bounce: false,
-            attract: {
-              enable: false,
-              rotateX: 600,
-              rotateY: 1200,
+            minimumValue: 0.3,
+            sync: false,
+          },
+        },
+        size: {
+          value: { min: 2, max: 6 },
+          random: {
+            enable: true,
+          },
+          animation: {
+            enable: true,
+            speed: 3,
+            minimumValue: 1,
+            sync: false,
+          },
+        },
+        rotate: {
+          value: { min: 0, max: 360 },
+          random: {
+            enable: true,
+          },
+          animation: {
+            enable: true,
+            speed: { min: 1, max: 5 }, // 각 별마다 다른 회전 속도
+            sync: false,
+          },
+        },
+        links: {
+          enable: false,
+        },
+        move: {
+          enable: true,
+          speed: 0.8,
+          direction: MoveDirection.none,
+          random: true,
+          straight: false,
+          outModes: {
+            default: OutMode.out,
+          },
+          bounce: false,
+          attract: {
+            enable: false,
+            rotate: {
+              x: 600,
+              y: 1200,
             },
           },
         },
-        interactivity: {
-          detect_on: "canvas",
-          events: {
-            onhover: {
-              enable: true,
-              mode: "bubble",
-            },
-            onclick: {
-              enable: true,
-              mode: "push",
-            },
-            resize: true,
+      },
+      interactivity: {
+        detectsOn: 'canvas',
+        events: {
+          onHover: {
+            enable: true,
+            mode: 'bubble',
           },
-          modes: {
-            grab: {
-              distance: 400,
-              line_linked: {
-                opacity: 1,
-              },
-            },
-            bubble: {
-              distance: 83.91608391608392,
-              size: 1,
-              duration: 3,
+          onClick: {
+            enable: true,
+            mode: 'push',
+          },
+          resize: {
+            enable: true,
+          },
+        },
+        modes: {
+          grab: {
+            distance: 400,
+            links: {
               opacity: 1,
             },
-            repulse: {
-              distance: 200,
-              duration: 0.4,
-            },
-            push: {
-              particles_nb: 4,
-            },
-            remove: {
-              particles_nb: 2,
-            },
+          },
+          bubble: {
+            distance: 83.91608391608392,
+            size: 1,
+            duration: 3,
+            opacity: 1,
+          },
+          repulse: {
+            distance: 200,
+            duration: 0.4,
+          },
+          push: {
+            quantity: 4,
+          },
+          remove: {
+            quantity: 2,
           },
         },
-        retina_detect: true,
-      }}
-    />
-    {children}
-  </div>
-);
+      },
+      detectRetina: true,
+    }),
+    []
+  );
+
+  return (
+    <div
+      className="wrapper"
+      style={{ position: 'relative', width: '100%', height: '100vh' }}
+    >
+      {init && (
+        <Particles
+          id="tsparticles"
+          particlesLoaded={particlesLoaded}
+          options={options}
+        />
+      )}
+      {children}
+    </div>
+  );
+};
 
 export default Layout;
