@@ -28,9 +28,10 @@ const Layout = ({ children }: LayoutProps) => {
     () => ({
       particles: {
         number: {
-          value: 250,
+          value: 355,
           density: {
             enable: true,
+            area: 800,
           },
         },
         color: {
@@ -57,13 +58,13 @@ const Layout = ({ children }: LayoutProps) => {
           },
         },
         size: {
-          value: { min: 2, max: 6 },
+          value: { min: 1.5, max: 3.5 },
           random: {
             enable: true,
           },
           animation: {
             enable: true,
-            speed: 3,
+            speed: 2,
             minimumValue: 1,
             sync: false,
           },
@@ -84,7 +85,7 @@ const Layout = ({ children }: LayoutProps) => {
         },
         move: {
           enable: true,
-          speed: 0.8,
+          speed: 0.3,
           direction: MoveDirection.none,
           random: true,
           straight: false,
