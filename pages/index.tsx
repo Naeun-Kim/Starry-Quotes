@@ -23,7 +23,7 @@ const Index = () => {
   async function getQuote() {
     try {
       const response = await fetch(
-        'https://api.quotable.io/quotes/random?maxLength=70'
+        'https://cors-anywhere.herokuapp.com/https://api.quotable.io/quotes/random?maxLength=70'
       );
       const { statusCode, statusMessage, ...data } = await response.json();
       if (!response.ok) throw new Error(`${statusCode} ${statusMessage}`);
