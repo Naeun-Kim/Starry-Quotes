@@ -22,15 +22,21 @@ const Index = () => {
 
   async function getQuote() {
     try {
-      const response = await fetch(
-        'https://cors-anywhere.herokuapp.com/https://api.quotable.io/quotes/random?maxLength=70'
-      );
-      const { statusCode, statusMessage, ...data } = await response.json();
-      if (!response.ok) throw new Error(`${statusCode} ${statusMessage}`);
+      const response = await fetch('/api/quote');
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
       setQuote(data);
     } catch (error) {
-      console.error(error);
-      setQuote({ content: 'Opps... Something went wrong' });
+      console.error('Quote fetch error:', error);
+      setQuote({
+        content: 'Opps... Something went wrong',
+        author: 'Error',
+        tags: [],
+      });
     }
   }
 
