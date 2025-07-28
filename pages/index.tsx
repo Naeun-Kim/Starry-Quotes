@@ -20,40 +20,16 @@ const Index = () => {
 
   useBodyClass(`${background[random]}`);
 
-  // async function getQuote() {
-  //   try {
-  //     const response = await fetch(
-  //       'https://api.quotable.io/random?maxLength=70'
-  //     );
-  //     const { statusCode, statusMessage, ...data } = await response.json();
-  //     if (!response.ok) throw new Error(`${statusCode} ${statusMessage}`);
-  //     setQuote(data);
-  //   } catch (error) {
-  //     console.error(error);
-  //     setQuote({ content: 'Opps... Something went wrong' });
-  //   }
-  // }
-
   async function getQuote() {
     try {
-      console.log('Fetching quote...'); // 디버깅용
       const response = await fetch(
-        'https://api.quotable.io/random?maxLength=70',
-        {
-          timeout: 10000, // 타임아웃 설정
-        }
+        'https://api.quotable.io/quotes/random?maxLength=70'
       );
-      console.log('Response status:', response.status); // 디버깅용
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-      console.log('Quote data:', data); // 디버깅용
+      const { statusCode, statusMessage, ...data } = await response.json();
+      if (!response.ok) throw new Error(`${statusCode} ${statusMessage}`);
       setQuote(data);
     } catch (error) {
-      console.error('Quote fetch error:', error);
+      console.error(error);
       setQuote({ content: 'Opps... Something went wrong' });
     }
   }
