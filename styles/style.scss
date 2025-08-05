@@ -145,3 +145,98 @@ body {
     letter-spacing: 1px;
   }
 }
+/*
+@keyframes move {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(-200px);
+  }
+}
+
+.cloud {
+  position: absolute;
+  pointer-events: none;
+}
+
+.sky {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+*/
+
+@keyframes cloudMove {
+  0% {
+    transform: translateX(-20vw);
+  }
+  100% {
+    transform: translateX(120vw);
+  }
+}
+// 실사 구름 컨테이너
+.real-cloud-container {
+  will-change: transform;
+
+  .cloud-layer {
+    will-change: transform, filter;
+
+    // 성능 최적화를 위한 GPU 가속
+    transform: translateZ(0);
+    backface-visibility: hidden;
+
+    .cloud-shadow {
+      // 여기서 mix-blend-mode가 제대로 작동합니다
+      mix-blend-mode: screen; // 밝은 배경과 잘 섞임
+
+      // 배경별 다른 blend 모드
+      body.sunset & {
+        mix-blend-mode: overlay; // 따뜻한 색상과 조화
+      }
+
+      body.night & {
+        mix-blend-mode: soft-light; // 밤하늘과 부드럽게
+      }
+
+      body.midnight & {
+        mix-blend-mode: screen; // 어두운 배경에서 밝게
+      }
+    }
+  }
+}
+
+// 하늘 컨테이너 개선
+.sky {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+
+  // 성능 최적화
+  will-change: contents;
+  transform: translateZ(0);
+
+  // 전체 하늘에도 blend 모드 적용 가능
+  mix-blend-mode: overlay;
+}
+
+// 다양한 blend 모드 옵션들
+.cloud-blend-screen {
+  mix-blend-mode: screen;
+} // 밝게, 하얀 구름
+.cloud-blend-overlay {
+  mix-blend-mode: overlay;
+} // 대비 강화
+.cloud-blend-soft-light {
+  mix-blend-mode: soft-light;
+} // 부드럽게
+.cloud-blend-multiply {
+  mix-blend-mode: multiply;
+} // 그림자 같은 효과
+.cloud-blend-lighten {
+  mix-blend-mode: lighten;
+}

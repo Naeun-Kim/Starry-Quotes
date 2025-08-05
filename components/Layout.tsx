@@ -7,6 +7,7 @@ import {
   OutMode,
 } from '@tsparticles/engine';
 import { loadSlim } from '@tsparticles/slim';
+import Sky from '../components/Sky';
 
 type LayoutProps = { children: React.ReactNode };
 
@@ -153,11 +154,14 @@ const Layout = ({ children }: LayoutProps) => {
       style={{ position: 'relative', width: '100%', height: '100vh' }}
     >
       {init && (
-        <Particles
-          id="tsparticles"
-          particlesLoaded={particlesLoaded}
-          options={options}
-        />
+        <>
+          <Particles
+            id="tsparticles"
+            particlesLoaded={particlesLoaded}
+            options={options}
+          />
+          <Sky />
+        </>
       )}
       {children}
     </div>
